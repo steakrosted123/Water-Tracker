@@ -1,0 +1,112 @@
+<% layout('main/main')%>
+    <div class="container">
+        <h1>Water Management System - Data Entry</h1>
+        <form id="waterForm" action="/postdetails" method="POST" class="validated-form" novalidate>
+            <div class="form-group">
+                <label for="usageLimit">Usage Limit (in litres)</label>
+                <input type="number" class="form-control" name="limit" id="usageLimit"  required>
+            </div>
+            <div class="form-group">
+                <label for="waterSources">Water Sources</label>
+                <table class="table" id="waterSources">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Usage (in litres)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" name="source1[name]" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="source1[litre]" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" name="source2[name]" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="source2[litre]" required>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="text" class="form-control" name="source3[name]" required>
+                            </td>
+                            <td>
+                                <input type="number" class="form-control" name="source3[litre]" required>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <button class="btn btn-success btn-primary">Submit</button>
+            
+        </form>
+    </div>
+
+<style>
+    /* Center the form and give it some padding */
+.container {
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 20px;
+}
+
+/* Style the form labels */
+label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+/* Style the form inputs */
+input[type="number"],
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+}
+
+/* Style the table */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f2f2f2;
+}
+
+/* Style the form submit button */
+button[type="submit"] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Style form submit button on hover */
+button[type="submit"]:hover {
+  background-color: #45a049;
+}
+
+</style>

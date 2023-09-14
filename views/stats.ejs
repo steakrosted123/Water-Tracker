@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pie Chart Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="stylesheet/chart.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1 class="text-center mt-4">Water Usage Statistics</h1>
+      <div class="row mt-5">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Water Usage by Source</h5>
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Usage Details</h5>
+              <p class="card-text">Usage Limit: <span id="usageLimit"></span> liters</p>
+              <p class="card-text">Total Liters Used: <span id="totalLitersUsed"></span> liters</p>
+              <p class="card-text">Usage Status: <span id="usageStatus"></span></p>
+              <p class="card-text">Feedback: <span id="feedback"></span></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const data = <%- JSON.stringify(details) %>;
+      const usageLimit = data.limit;
+      const source1 = data.source1;
+      const source2 = data.source2;
+      const source3 = data.source3;
+      const sources = [source1, source2, source3];
+
+      // Create an array of liters used by each source
+      const litersUsed = sources.map((source) => source.litre);
+
+      // Calculate the total liters used
+      const totalLitersUsed = litersUsed.reduce(
+        (accumulator, currentValue) => accumulator + parseInt(currentValue),
+        0
+      );
+
+      // Calculate the percentage of usage for each source
+      const percentages = litersUsed.map((liters) =>
+        parseFloat((liters / totalLitersUsed * 100).toFixed(2))
+      );
+
+      // Create an array of colors for the pie chart
+      const colors = ["#ffcc00", "#0099ff", "#ff6600"];
+
+      // Create an array of source names for the pie chart
+      const sourceNames = sources.map((source) => source.name);
+
+      // Create the data object for the pie chart
+      const pieChartData = {
+        labels: sourceNames,
+        datasets: [
+          {
+            data: percentages,
+            backgroundColor: colors,
+          },
+        ],
+      };
+
+      // Create the options object for the pie chart
+      const pieChartOptions = {
+        title: {
+          display: true,
+          text: "Water Usage by Source",
+        },
+      };
+
+      // Get the canvas element and create the pie chart
+      const pieChart = new Chart(document.getElementById("myChart"), {
+        type: "pie",
+        data: pieChartData,
+    options: pieChartOptions,
+  });
+
+  // Display the usage limit and total liters used on the page
+  const usageLimitElement = document.getElementById("usageLimit");
+  usageLimitElement.textContent = usageLimit;
+
+  const totalLitersUsedElement = document.getElementById("totalLitersUsed");
+  totalLitersUsedElement.textContent = totalLitersUsed;
+
+  // Determine the usage status based on the percentage of usage
+  let usageStatus;
+  if (totalLitersUsed <= 0.5 * usageLimit) {
+    usageStatus = "Good";
+  } else if (totalLitersUsed > 0.5 * usageLimit && totalLitersUsed < usageLimit) {
+    usageStatus = "Moderate";
+  } else {
+    usageStatus = "Bad";
+  }
+
+  // Display the usage status on the page
+  const usageStatusElement = document.getElementById("usageStatus");
+  usageStatusElement.textContent = usageStatus;
+
+  // Determine the feedback based on the usage status
+  let feedback;
+  switch (usageStatus) {
+    case "Good":
+      feedback = "Great job! You're using water responsibly.";
+      break;
+    case "Moderate":
+      feedback = "You're using a moderate amount of water. Keep it up!";
+      break;
+    case "Bad":
+      feedback = "You're using too much water. Try to reduce your usage.";
+      break;
+    default:
+      feedback = "";
+  }
+
+  // Display the feedback on the page
+  const feedbackElement = document.getElementById("feedback");
+  feedbackElement.textContent = feedback;
+</script>
+</body>
+</html>
+<style>
+  #myChart {
+    height: 300px;
+  }
+  /* Styling for Usage Details section */
+  /* Styling for Usage Details section */
+  .card-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.card-text {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+#usageLimit,
+#totalLitersUsed,
+#usageStatus,
+#feedback {
+  font-weight: bold;
+}
+
+#usageStatus {
+  color: #008000;
+}
+
+#feedback {
+  font-style: italic;
+}
+
+.card-body {
+  background-color: #f7f7f7;
+  border-radius: 5px;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+</style> 
